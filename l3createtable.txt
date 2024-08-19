@@ -1,0 +1,58 @@
+=>Choose database
+USE database_name;
+
+=> Table List
+SHOW TABLES;
+SHOW FULL TABLES;
+
+=> Check tables from current db to other db
+
+SHOW TABLES FROM database_name;
+SHOW TABLES IN database_name;
+
+SHOW FULl TABLES FROM database_name;
+SHOW FULl TABLES IN database_name;
+
+
+
+=> Create Table
+=Syntax
+
+CREATE TABLE tablename(
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+    .....
+);
+
+CREATE TABLE IF NOT EXISTS tablename(
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+    .....
+);
+
+CREATE TABLE persons(
+    id INT,
+    firstname VARCHAR(255),
+    lastname VARCHAR(255),
+    city VARCHAR(255),
+    address VARCHAR(255)
+);
+
+
+
+-----------------------------------------
+
+=> Drop Table (Single)
+
+DROP TABLE persons;
+DROP TABLE IF EXISTS persons;
+
+
+=> Drop Table (Multi / Bulk)
+
+DROP TABLE persons,staffs,employees,users;
+DROP TABLE IF EXISTS persons,staffs,employees,users;
+
+-----------------------------------------

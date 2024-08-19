@@ -1,0 +1,33 @@
+=> Temporary table
+
+= Syntax
+
+CREATE TEMPORARY TABLE IF NOT EXISTS tablename(
+    column1 datatype,
+    column2 datatype,
+    column3 datatype,
+    ......
+);
+
+-----------------------------------------------
+
+= EXERCISE
+
+CREATE TEMPORARY TABLE IF NOT EXISTS chatrooms(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20),
+    age INT,
+    city VARCHAR(50),
+    PRIMARY KEY(id)
+);
+
+DESC chatrooms;
+SHOW CREATE TABLE chatrooms;
+SHOW INDEX FROM chatrooms;
+
+INSERT INTO chatrooms(name,age,city)
+VALUES ('aung aung',20,'yangon'),
+('tun tun,20,'yangon'),
+('zaw zaw',20,'yangon');
+
+SELECT * FROM chatrooms;

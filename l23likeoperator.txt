@@ -1,0 +1,90 @@
+=> LIKE
+
+= SYNTAX
+
+SELECT column1,column2,column3,...  FROM tablename
+WHERE column LIKE pattern;
+
+= LIKE Operators pattern
+
+WHERE column LIKE 'a%'              Find any values that starts with 'a'
+WHERE column LIKE '%a'              Find any values that ends with 'a'
+WHERE column LIKE '%or%'            Find any values that have 'or' in any position
+WHERE column LIKE '_r%'             Find any values that have 'r' in the second position
+WHERE column LIKE 'r_%'             Find any values that starts with 'r' and at least 2 characters in length
+WHERE column LIKE 'r__%'            Find any values that starts with 'r' and at least 3 characters in length
+WHERE column LIKE 'a%o'             Find any values that starts with 'a' and ends with 'o'
+
+-------------------------------------------------------------------------------------------------------------
+
+= EXERCISE
+
+SELECT firstname,lastname,age,city FROM customers;
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname = "aung";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "aung";
+
+*no action
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname = "m%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "m%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%g";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%n";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%un";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%nn";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%un%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "_a%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "a__%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "a___%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "a%g";
+
+-------------------------------------------------------------------------------------------------------------
+
+= EXERCISE  ( LIKE '___')
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "___";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "____";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "_____";
+
+-------------------------------------------------------------------------------------------------------------
+
+= EXERCISE  ( LIKE '%' = is anything )
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "\_%";
+
+SELECT firstname,lastname,age,city FROM customers
+WHERE firstname LIKE "%\_%";
+
+-------------------------------------------------------------------------------------------------------------

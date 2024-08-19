@@ -1,0 +1,124 @@
+=> PRIMARY KEY
+
+METHOD 1 = Syntax
+
+CREATE TABLE IF NOT EXISTS workers(
+    id INT NOT NULL PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50),
+    age INT
+);
+
+
+METHOD 2 = Syntax
+
+CREATE TABLE IF NOT EXISTS workers(
+    id INT NOT NULL,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50),
+    age INT,
+    PRIMARY KEY (id)
+);
+
+--------------------------------------------------------------------------------------------------------
+
+=> Without PRIMARY KEY
+
+CREATE TABLE IF NOT EXISTS workers(
+    id INT,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50),
+    age INT
+);
+
+DESC workers;
+SHOW CREATE TABLE workers;
+SHOW INDEX FROM workers;
+
+INSERT INTO workers(id,firstname,lastname,age)
+VALUES (1,'zaw','zaw',20),
+        (1,'nu','nu',15);
+
+SELECT * FROM workers;
+
+#########################
+
+=> With PRIMARY KEY
+
+CREATE TABLE IF NOT EXISTS developers(
+    id INT NOT NULL PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50),
+    age INT
+);
+
+DESC developers;
+
+SHOW INDEX FROM developers;
+
+INSERT INTO developers(id,firstname,lastname,age)
+VALUES (1,'zaw','zaw',20),
+        (2,'nu','nu',15);
+
+SELECT * FROM developers;
+
+
+--------------------------------------------------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS engineers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULl DEFAULT 'male'
+);
+
+CREATE TABLE IF NOT EXISTS engineers(
+    id INT NOT NULL AUTO_INCREMENT,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULl DEFAULT 'male',
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS engineers(
+    id INT NOT NULL AUTO_INCREMENT,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    gender VARCHAR(10) NOT NULl DEFAULT 'male',
+    PRIMARY KEY (id)
+);
+
+DESC engineers;
+SHOW CREATE TABLE engineers;
+SHOW INDEX FROM engineers;
+
+INSERT INTO engineers(firstname,lastname,age)
+VALUE ('nay','zin',30);
+
+INSERT INTO engineers(firstname,lastname,age)
+VALUES ('maung','kyaw',30),
+        ('aung','kyaw',28);
+
+INSERT INTO engineers(id,firstname,lastname,age)
+VALUE (10,'kyaw','zin',30);
+
+INSERT INTO engineers(firstname,lastname,age)
+VALUES ('min','zin',30),
+        ('myat','kyaw',29);
+
+INSERT INTO engineers(id,firstname,lastname,age)
+VALUE (7,'myo','aung',30);
+
+INSERT INTO engineers(firstname,lastname,age)
+VALUES ('nyo','zin',30),
+        ('phyo','kyaw',29);
+
+INSERT INTO engineers(firstname,lastname,age,gender)
+VALUE ('myo','myo',30,'female');
+
+SELECT * FROM engineers;
+
+--------------------------------------------------------------------------------------------------------

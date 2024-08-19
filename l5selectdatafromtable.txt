@@ -1,0 +1,20 @@
+=> Select Data
+
+Method 1 = Syntax
+
+SELECT * FROM tabelname;
+
+METHOD 2 = Syntax
+
+SELECT column1,column2,column3,... FROM tablename;
+
+
+SELECT * FROM persons;
+
+SELECT id,firstname,lastname,city,address FROM persons;
+
+SELECT firstname,lastname,city FROM persons;
+
+SELECT firstname,city,lastname,id FROM persons;
+
+--------------------------------------------------------------------------------------------------------

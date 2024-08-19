@@ -1,0 +1,309 @@
+=> Date Data Types
+
+Data Type                                               Description
+
+DATE                                                    A date, Format : YYYY-MM-DD , The supported range is from '1000-01-01' to '9999-12-31'
+DATETIME                                                A date and combination. Format : YYYY-MM-DD hh:mm:ss . The supported range is from '1000-01-01 00:00:00' to '9999-12-31 23:59:59'
+TIMESTAMP                                               A timestamp . Format : YYYY-MM-DD hh:mm:ss
+TIME                                                    A time . Format : hh:mm:ss
+YEAR                                                    A year with four-digit format
+
+------------------------------------------------------------------
+
+=> Exercise
+
+Eg : Get Current Date (2024-06-06)
+SELECT CURRENT_DATE();
+SELECT CURDATE();
+
+
+Eg : Get Current Time (16:16:22)
+SELECT CURRENT_TIME();
+SELECT CURTIME();
+
+
+Eg : Get Current date (2024-06-06 16:17:28)
+SELECT CURRENT_TIMESTAMP();
+SELECT CURRENT_TIMESTAMP;
+SELECT NOW();
+SELECT SYSDATE();
+
+------------------------------------------------------------------
+
+
+=> INTERVAL
+
+*result = 2024-06-06 16:17:28       |       2023-06-06 16:17:28
+SELECT NOW(), NOW() - INTERVAL 1 YEAR;
+SELECT NOW() - INTERVAL 1 YEAR;
+SELECT NOW(), NOW() - INTERVAL 2 YEAR;
+
+
+*result = 2024-06-06 16:17:28       |       2024-05-06 16:17:28
+SELECT NOW(), NOW() - INTERVAL 1 MONTH;
+SELECT NOW(), NOW() - INTERVAL 12 MONTH;
+
+
+*result = 2024-06-06 16:17:28       |       2024-05-06 16:17:28
+SELECT NOW(), NOW() - INTERVAL 1 WEEK;
+
+
+*result = 2024-06-06 16:17:28       |       2024-05-30 16:17:28
+SELECT NOW(), NOW() - INTERVAL 1 DAY;
+
+
+*result = 2024-06-06 16:17:28       |       2024-06-06 15:17:28
+SELECT NOW(), NOW() - INTERVAL 1 HOUR;
+
+
+*result = 2024-06-06 16:17:28       |       2024-06-06 16:07:28
+SELECT NOW(), NOW() - INTERVAL 10 MINUTE;
+
+
+*result = 2024-06-06 16:17:28       |       2024-06-06 16:17:27
+SELECT NOW(), NOW() - INTERVAL 1 SECOND;
+
+
+*result = 2024-06-06 16:17:28       |       2024-06-06 16:17:27.999999
+SELECT NOW(), NOW() - INTERVAL 1 MICROSECOND;
+
+
+----------------------------------------------------------------------------
+
+=> LAST_DAY();
+SELECT NOW(), LAST_DAY(NOW());
+SELECT LAST_DAY(CURRENT_DATE());
+SELECT LAST_DAY(CURDATE());
+SELECT LAST_DAY(CURRENT_TIMESTAMP);
+
+----------------------------------------------------------------------------
+
+=> DAY();
+
+*result = 30
+SELECT DAY(LAST_DAY(NOW()));
+SELECT DAY(LAST_DAY(CURRENT_DATE()));
+SELECT DAY(LAST_DAY(CURDATE()));
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP));
+
+
+*result = 31
+SELECT DAY(LAST_DAY(NOW() - INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURRENT_DATE() - INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURDATE() - INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP - INTERVAL 1 MONTH));
+
+
+*result = 31
+SELECT DAY(LAST_DAY(NOW() + INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURRENT_DATE() + INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURDATE() + INTERVAL 1 MONTH));
+SELECT DAY(LAST_DAY(CURRENT_TIMESTAMP() + INTERVAL 1 MONTH));
+
+----------------------------------------------------------------------------
+
+=>DATE_FORMAT(date,format)
+
+SELECT DATE_FORMAT(NOW(), '%Y-%m-01'); // 2024-06-01
+SELECT DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01'); // 2024-05-01     get the first day
+SELECT DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-%d'); // 2024-05-10
+SELECT DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-%D'); // 2024-05-10th
+SELECT DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%M-%d'); // 2024-May-10
+SELECT DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%y-%m-%d'); // 24-05-10
+SELECT DATE_FORMAT(CURRENT_TIMESTAMP() - INTERVAL 1 MONTH, '%y-%m-%d'); // 24-05-10
+
+
+SELECT LAST_DAY(NOW()); // 2024-06-30
+SELECT DAY(LAST_DAY(NOW()));    // 30
+SELECT DAY(LAST_DAY(NOW())) - 1 DAY;   // 29
+
+
+                // 2024-06-30
+SELECT DATE_SUB(LAST_DAY(NOW()),INTERVAL LAST_DAY(NOW())) - 1 DAY); // 2024-06-01
+SELECT SUBDATE(LAST_DAY(NOW()),INTERVAL LAST_DAY(NOW())) - 1 DAY); // 2024-06-01
+SELECT SUBDATE(LAST_DAY(NOW()),INTERVAL LAST_DAY(NOW())) - 2 DAY); // 2024-06-02
+
+----------------------------------------------------------------------------
+
+=> EXERCISE
+
+CREATE TABLE IF NOT EXISTS vipcustomers(
+    id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100),
+    birthdate DATE,
+    birthtime TIME,
+    year YEAR,
+    city VARCHAR(100),
+    PRIMARY KEY(id)
+);
+
+DESC vipcustomers;
+SHOW CREATE TABLE vipcustomers;
+SHOW INDEX FROM vipcustomers;
+
+INSERT INTO vipcustomers(name,birthdate,birthtime,year,city)
+VALUES ('aung aung','2000-02-20','10:12:59',2000,'mawlamyine'),
+        ('tar gyi','2001-03-20','10:12:59',2001,'mawlamyine'),
+        ('kyaw kyaw','2002-02-20','10:12:59',2002,'yangon'),
+        ('zaw zaw','2003-06-20','10:12:59',2003,'bago'),
+        ('su su','2005-08-20','10:12:59',2005,'mandalay'),
+        ('nu nu','2000-11-20','10:12:59',2000,'yangon'),
+        ('hla hla','2001-12-20','10:12:59',2001,'mawlamyine');
+
+SELECT * FROM vipcustomers;
+
+SELECT name,birthdate FROM vipcustomers;
+SELECT name,birthdate,DAY(birthdate) FROM vipcustomers;
+SELECT name,birthdate,DAYNAME(birthdate) FROM vipcustomers;
+Note :: 1 = sunday, 2 = monday, 3 = tueday, 4 = wednesday, 5 = thursday, 6 = friday, 7 = saturday
+SELECT name,birthdate,DAYNAME(birthdate),DAYOFWEEK(birthdate) FROM vipcustomers;
+SELECT name,birthdate,DAYNAME(birthdate),DAYOFYEAR(birthdate) FROM vipcustomers;
+
+SELECT name,birthdate,MONTH(birthdate) FROM vipcustomers;
+SELECT name,birthdate,MONTHNAME(birthdate) FROM vipcustomers;
+
+SELECT name,birthdate,YEAR(birthdate) FROM vipcustomers;
+
+SELECT name,birthdate,HOUR(birthdate) FROM vipcustomers;
+SELECT name,birthdate,MINUTE(birthdate) FROM vipcustomers;
+SELECT name,birthdate,SECOND(birthdate) FROM vipcustomers;
+
+SELECT name,birthdate,CONCAT(MONTH(birthdate),'-',MONTH(birthdate),'-',DAY(birthdate))  FROM vipcustomers;
+SELECT name,birthdate,CONCAT(MONTH(birthdate),'-',MONTH(birthdate),'-',DAY(birthdate)) AS date  FROM vipcustomers;
+
+----------------------------------------------------------------------------
+
+=> BETWEEN with AND
+
+SELECT name,birthdate FROM vipcustomers;
+
+SELECT name,birthdate FROM vipcustomers
+WHERE birthdate BETWEEN '2002-01-01' AND '2005-12-31';
+
+SELECT name,birthdate FROM vipcustomers
+WHERE YEAR(birthdate) BETWEEN '2001' AND '2005';
+
+SELECT name,birthdate FROM vipcustomers
+WHERE YEAR(birthdate) BETWEEN 2001 AND 2005;
+
+SELECT name,birthdate,city FROM vipcustomers
+WHERE YEAR(birthdate) BETWEEN 2001 AND 2005;
+
+SELECT name,birthdate,city FROM vipcustomers
+WHERE YEAR(birthdate) BETWEEN 2001 AND 2005 AND city IN('mawlamyine','mandalay');
+
+SELECT name,birthdate,city FROM vipcustomers
+WHERE MONTH(birthdate) <= 4;
+
+----------------------------------------------------------------------------
+
+=> EXERCISE DATE_ADD / ADDDATE()
+
+SELECT * FROM vipcustomers;
+
+SELECT name,birthdate FROM vipcustomers;
+SELECT name,birthdate,birthdate + INTERVAL 1 MONTH FROM vipcustomers;
+SELECT name,birthdate,(birthdate + INTERVAL 1 MONTH) FROM vipcustomers;
+SELECT name,birthdate,(birthdate+INTERVAL 1 MONTH) FROM vipcustomers;
+SELECT name,birthdate,DATE_ADD(birthdate,INTERVAL 1 MONTH) FROM vipcustomers;
+SELECT name,birthdate,ADDDATE(birthdate,INTERVAL 1 MONTH) FROM vipcustomers;
+
+1 QUARTER = 3 MONTHS
+SELECT name,birthdate,DATE_ADD(birthdate,INTERVAL 1 QUARTER) FROM vipcustomers;
+SELECT name,birthdate,ADDDATE(birthdate,INTERVAL 1 QUARTER) FROM vipcustomers;
+
+SELECT name,birthdate,DATE_ADD(birthdate,INTERVAL 20 SECOND) FROM vipcustomers;
+
+
+SELECT name,birthdate,birthtime,(birthdate + INTERVAL 1 MONTH)  FROM vipcustomers;
+SELECT name,birthdate,birthtime,(birthdate + INTERVAL 1 MONTH + INTERVAL 10 HOUR)  FROM vipcustomers;
+SELECT name,birthdate,birthtime,(birthdate + INTERVAL 1 MONTH + INTERVAL 10 HOUR + INTERVAL 25 MINUTE)  FROM vipcustomers;
+SELECT name,birthdate,birthtime,(birthdate + INTERVAL 1 MONTH + INTERVAL 10 HOUR + INTERVAL 25 MINUTE + INTERVAL 50 SECOND)  FROM vipcustomers;
+
+----------------------------------------------------------------------------
+
+=> EXERCISE TIMESTAMP
+
+CREATE TABLE IF NOT EXISTS comments(
+    content VARCHAR(100),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+DESC comments;
+SHOW CREATE TABLE comments;
+
+INSERT INTO comments(content)
+VALUES('hello how are you!');
+
+SELECT * FROM comments;
+
+
+INSERT INTO comments(content)
+VALUES ('so nice'),
+        ('so sweet'),
+        ('it is amazing');
+
+SELECT * FROM comments;
+
+-------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS feedbacks(
+    content VARCHAR(100),
+    created_at TIMESTAMP DEFAULT NOW(),
+    update_at  TIMESTAMP DEFAULT NOW()
+);
+
+DESC feedbacks;
+SHOW CREATE TABLE feedbacks;
+
+INSERT INTO feedbacks(content)
+VALUES ('this is so funny'),
+        ('how sweet'),
+        ('how wonderful'),
+        ('pretty good');
+
+INSERT INTO feedbacks(content)
+VALUES ('how are you'),
+        ('so nice'),
+        ('so sweet');
+
+SELECT * FROM feedbacks;
+
+
+UPDATE feedbacks SET content="Bleh...Bleh...Bleh"
+WHERE content="how sweet";
+
+SELECT * FROM feedbacks;
+
+-------------------------------------------------------------
+
+
+CREATE TABLE IF NOT EXISTS advices(
+    content VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    update_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+DESC advices;
+SHOW CREATE TABLE advices;
+
+INSERT INTO advices(content)
+VALUES ('this is so funny'),
+        ('how sweet'),
+        ('how wonderful'),
+        ('pretty good');
+
+INSERT INTO advices(content)
+VALUES ('how are you'),
+        ('so nice'),
+        ('so sweet');
+
+SELECT * FROM advices;
+
+
+UPDATE advices SET content="Bleh...Bleh...Bleh"
+WHERE content="how sweet";
+
+SELECT * FROM advices;
+
+-------------------------------------------------------------

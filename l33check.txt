@@ -1,0 +1,46 @@
+=> CHECK constraint
+
+CREATE TABLE IF NOT EXISTS purchases(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    ordinaryprice DECIMAL(10,2) NOT NULL,
+    sellprice DECIMAL(10,2) NOT NULL
+);
+
+DESC purchases;
+SHOW CREATE TABLE purchases;
+
+INSERT INTO purchases(name,ordinaryprice,sellprice) VALUE ('redbull',400,1000);
+INSERT INTO purchases(name,ordinaryprice,sellprice) VALUE ('sponsor',-300,600);
+
+SELECT * FROM purchases;
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS vippurchases(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    ordinaryprice DECIMAL(10,2) NOT NULL (CHECK ordinaryprice >= 0),
+    sellprice DECIMAL(10,2) NOT NULL (CHECK sellprice >= 0)
+);
+
+DESC vippurchases;
+SHOW CREATE TABLE vippurchases;
+SHOW INDEX FROM vippurchases;
+
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('redbull',400,1000);
+
+*error
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('sponsor',-300,600);
+
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('sponsor',300,-600);
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('sponsor',-300,-600);
+
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('sponsor',0,500);
+INSERT INTO vippurchases(name,ordinaryprice,sellprice) VALUE ('deedo',0,0);
+
+
+
+SELECT * FROM vippurchases;

@@ -1,0 +1,58 @@
+=> INNER JOIN
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+=> Method 1
+
+*error 1
+SELECT * FROM buyers,orders
+WHERE id = buyer_id;
+
+
+SELECT * FROM buyers,orders
+WHERE buyers.id = orders.buyer_id;
+
+
+SELECT * FROM buyers,orders
+WHERE orders.buyer_id = buyers.id;
+
+
+SELECT * FROM orders,buyers
+WHERE orders.buyer_id = buyers.id;
+
+
+SELECT * FROM orders,buyers
+WHERE buyers.id = orders.buyer_id;
+
+
+
+=> Method 2
+
+SELECT * FROM buyers
+JOIN orders
+ON buyers.id = orders.buyer_id;
+
+SELECT * FROM buyers
+JOIN orders
+ON orders.buyer_id = buyers.id;
+
+SELECT * FROM orders
+INNER JOIN buyers
+ON buyers.id = orders.buyer_id;
+
+SELECT * FROM orders
+INNER JOIN buyers
+ON orders.buyer_id = buyers.id;
+
+--------------------------------------------------------
+
+SELECT firstname,lastname,orderdate,amount FROM buyers
+JOIN orders
+    ON buyers.id = orders.buyer_id;
+
+SELECT firstname,lastname,orderdate,amount FROM orders
+INNER JOIN buyers
+    ON buyers.id = orders.buyer_id;
+
+--------------------------------------------------------

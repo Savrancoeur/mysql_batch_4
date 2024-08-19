@@ -1,0 +1,23 @@
+=> Alias
+
+=Syntax
+
+
+SELECT column AS aliasname FROM tablename;
+
+
+------------------------------------------
+
+= EXERCISE
+
+SELECT id,firstname FROM suppliers;
+SELECT id,firstname AS fstname FROM suppliers;
+SELECT id,firstname AS fstname,lastname AS lstname FROM suppliers;
+
+SELECT id,
+firstname AS fstname,
+lastname AS lstname,
+FROM suppliers;
+
+
+------------------------------------------

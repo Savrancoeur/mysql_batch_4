@@ -1,0 +1,105 @@
+mysql -V
+
+mysql -u root -p
+*Mysql password here*
+
+mysql -u root -p*Mysql password here*
+exit
+
+mysql -u root -p -h localhost
+*Mysql password here*
+exit
+
+--------------------------------------------
+
+=>Check User List
+
+Method 1
+SHOW DATABASES;
+USE mysql;
+SELECT user FROM user;
+
+
+Method 2
+
+SELECT user FROM mysql.user;
+SELECT user,host FROM mysql.user;
+
+
+--------------------------------------------
+
+=>Create User
+
+Method 1 (localhost)
+
+CREATE USER 'user1'@'localhost' IDENTIFIED BY 'myprojectserver1Db@#$';
+GRANT ALL PRIVILEGES ON exerciseone.* TO 'user1'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER 'user2'@'localhost' IDENTIFIED BY 'myprojectserver1Db@#$';
+GRANT ALL PRIVILEGES ON exerciseone.* TO 'user2'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON exercisetwo.* TO 'user2'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+CREATE USER 'user3'@'localhost' IDENTIFIED BY 'myprojectserver1Db@#$';
+GRANT ALL PRIVILEGES ON *.* TO 'user3'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+
+Method 2 (Remote)
+
+CREATE USER 'user4'@'%' IDENTIFIED BY 'myprojectserver1Db@#$';
+GRANT ALL PRIVILEGES ON *.* TO 'user4'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+--------------------------------------------
+
+=> Update Password
+
+mysql -u root -p*Mysql password here*
+SELECT user();
+
+ALTER USER 'user1'@'localhost' IDENTIFIED BY 'myprojectserver2Db@#$';
+exit
+
+mysql -u user1 -p
+myprojectserver2Db@#$
+
+--------------------------------------------
+
+=> Lock User
+
+mysql -u root -p
+*Mysql password here*
+
+SELECT user();
+
+ALTER USER 'user1'@'localhost' ACCOUNT LOCK;
+
+
+=> Unlock User
+
+mysql -u root -p
+*Mysql password here*
+
+SELECT user();
+
+ALTER USER 'user1'@'localhost' ACCOUNT UNLOCK;
+
+
+mysql -u user1 -p
+myprojectserver2Db@#$
+
+--------------------------------------------
+
+=> Drop User
+
+mysql -u root -p
+*Mysql password here*
+
+SELECT user();
+
+DROP USER 'user1'@'localhost';
+
+
+--------------------------------------------

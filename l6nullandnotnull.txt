@@ -1,0 +1,64 @@
+=> NULL and NOTNULL
+
+CREATE TABLE IF NOT EXISTS students(
+    name VARCHAR(10),
+    age INT(5)
+);
+
+DESC students;
+
+INSERT INTO students(name,age)
+VALUE ('aung aung',20);
+
+INSERT INTO students(name,age)
+VALUE ('su su','20');
+
+INSERT INTO students(name)
+VALUE ('yu yu');
+
+INSERT INTO students(age)
+VALUE (30);
+
+INSERT INTO students()
+VALUE ();
+
+INSERT INTO students
+VALUE ();
+
+SELECT * FROM students;
+
+--------------------------------------------------------------------------------------------------------
+
+=> NOT NULL
+
+CREATE TABLE IF NOT EXISTS employees(
+    name VARCHAR(10) NOT NULL,
+    age INT(3)
+);
+
+DESC employees;
+
+INSERT INTO employees(name,age)
+VALUE ('aung aung',20);
+
+INSERT INTO employees(name,age)
+VALUE ('su su','20');
+
+INSERT INTO employees(name)
+VALUE ('yu yu');
+
+#error
+INSERT INTO employees(age)
+VALUE (30);
+
+#error
+INSERT INTO employees()
+VALUE ();
+
+#error
+INSERT INTO employees
+VALUE ();
+
+SELECT * FROM employees;
+
+--------------------------------------------------------------------------------------------------------

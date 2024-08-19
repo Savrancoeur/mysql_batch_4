@@ -1,0 +1,46 @@
+=> AND
+
+- Syntax
+
+SELECT * FROM tablename
+WHERE condition1 AND condition2 AND condition3,...;
+
+=> OR
+
+- Syntax
+
+SELECT * FROM tablename
+WHERE condition1 OR condition2 OR condition3,...;
+
+=> NOT
+
+-Syntax
+
+SELECT * FROM tablename
+WHERE NOT condition;
+
+-------------------------------------------------------------------------
+
+- Exercise
+
+SELECT * FROM customers;
+
+SELECT * FROM customers
+WHERE city = 'yangon';
+
+SELECT * FROM customers
+WHERE city = 'yangon' AND gender = 'male';
+
+
+SELECT * FROM customers
+WHERE city = 'yangon' AND NOT gender = 'male' AND NOT age = 21;
+
+# exact result
+SELECT * FROM customers
+WHERE city = 'yangon' AND NOT gender = 'female' AND NOT firstname = 'aung';
+
+# diff result
+SELECT * FROM customers
+WHERE city = 'yangon' AND NOT gender = 'female' OR NOT firstname = 'aung';
+
+-------------------------------------------------------------------------

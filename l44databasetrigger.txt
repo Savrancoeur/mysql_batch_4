@@ -1,0 +1,412 @@
+=> Database TRIGGER
+
+
+=> TRIGGER TIME
+BEFORE
+AFTER
+
+=> TRIGGER EVENT
+INSERT
+UPDATE
+DELETE
+
+
+TRIGGER EVENT           OLD             NEW
+INSERT                  no              yes
+UPDATE                  yes             yes
+DELETE                  yes             no
+
+
+=> Syntax
+
+DELIMITER $$
+
+    CREATE TRIGGER triggername
+    trigger_time trigger_event ON tablename FOR EACH ROW
+    BEGIN
+        ----- STATEMENT;
+    END $$
+
+DELIMITER ;
+
+
+*don't
+DELIMITER;
+*do
+DELIMITER ;
+
+
+=>Statement (IF THEN ELSE)
+IF condition1 THEN
+    code to be executed
+ELSEIF condition2 THEN
+    code to be executed
+ELSEIF condition3 THEN
+    code to be executed
+ELSE
+    code to be executed
+END IF;
+
+----------------------------------------------------------------
+
+
+=> EXERCISE
+
+CREATE TABLE IF NOT EXISTS borrowers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50),
+    password VARCHAR(255),
+    age INT,
+    status INT DEFAULT 1
+);
+
+DESC borrowers;
+SHOW CREATE TABLE borrowers;
+SHOW INDEX FROM borrowers;
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('aung aung',MD5(SHA('123456')),20),
+('zaw zaw',MD5(SHA('123456')),30),
+('kyaw kyaw',MD5(SHA('123456')),40),
+('tun tun',MD5(SHA('123456')),35),
+('zayar',MD5(SHA('123456')),25);
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('su su',MD5(SHA('123456')),15),
+('yu yu',MD5(SHA('123456')),18),
+('nu nu',MD5(SHA('123456')),19),
+('ni ni',MD5(SHA('123456')),16),
+('war war',MD5(SHA('123456')),13);
+
+
+SELECT * FROM borrowers;
+
+
+--------------------------------------------------------------
+
+
+=> Before Insert
+
+DELIMITER //
+
+CREATE TRIGGER borrowersstatus_bfc
+BEFORE INSERT
+ON borrowers FOR EACH ROW
+BEGIN
+    IF NEW.age < 18 THEN SET NEW.status = 2;
+    ELSEIF NEW.age > 60 THEN SET NEW.status = 3;
+    END IF;
+END; //
+
+DELIMITER ;
+
+SHOW triggers;
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('moe moe',MD5(SHA('123456')),17),
+('soe soe',MD5(SHA('123456')),18),
+('noe noe',MD5(SHA('123456')),20),
+('nyo nyo',MD5(SHA('123456')),35),
+('thaung sein',MD5(SHA('123456')),65);
+
+SELECT * FROM borrowers;
+
+
+DROP TRIGGER IF EXISTS borrowersstatus_bfc;
+SHOW TRIGGERS;
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('yan yan',MD5(SHA('123456')),17),
+('kyaw moe',MD5(SHA('123456')),75);
+
+SELECT * FROM borrowers;
+
+--------------------------------------------------------------
+
+
+=> Mysql ERROR Message
+
+DELIMITER //
+
+CREATE TRIGGER borrowersstatuserr_bfc
+BEFORE INSERT
+ON borrowers FOR EACH ROW
+BEGIN
+    IF NEW.age < 18 THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = "Ohh... we cannot provide loan for this user";
+    END IF;
+END; //
+
+DELIMITER ;
+
+
+SHOW triggers;
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('yamin',MD5(SHA('123456')),20),
+('wai yan',MD5(SHA('123456')),65);
+
+SELECT * FROM borrowers;
+
+
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('thuzar',MD5(SHA('123456')),16);
+
+SELECT * FROM borrowers;
+
+
+-----------------------------------------------------------------
+
+
+=> After Insert
+
+CREATE TABLE IF NOT EXISTS borrowercreators(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    borrowers_id INT,
+    created_by VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+DESC borrowercreators;
+SHOW CREATE TABLE borrowercreators;
+SHOW INDEX FROM borrowercreators;
+
+
+
+DELIMITER //
+
+CREATE TRIGGER borrowerscreators_afc
+AFTER INSERT
+ON borrowers FOR EACH ROW
+BEGIN
+
+    DECLARE dbuser VARCHAR(50);
+    SELECT USER() INTO dbuser;
+
+    INSERT INTO borrowerscreators(borrower_id,created_by)
+    VALUE(NEW.id,dbuser);
+END; //
+
+DELIMITER ;
+
+
+SHOW TRIGGERS;
+
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('muyar',MD5(SHA('123456')),35);
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('yupar',MD5(SHA('123456')),60),
+('soemoe',MD5(SHA('123456')),36);
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+
+
+-----------------------------------------------------------------
+
+=> After Insert
+
+CREATE TABLE IF NOT EXISTS remindmessages(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    borrower_id INT,
+    message VARCHAR(255) NOT NULL
+);
+
+DESC remindmessages;
+SHOW CREATE TABLE remindmessages;
+SHOW INDEX FROM remindmessages;
+
+
+
+
+DELIMITER //
+
+CREATE TRIGGER borrowersagereminders_afc
+AFTER INSERT
+ON borrowers FOR EACH ROW
+BEGIN
+    IF NEW.age IS NULL THEN
+        INSERT INTO remindmessages(borrower_id,message)
+        VALUE(NEW.id,CONCAT('Dear ',NEW.username,'please update your age'));
+    END IF;
+END;
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+SELECT * FROM remindmessages;
+
+
+INSERT INTO borrowers(username,password,age)
+VALUES ('thandar',MD5(SHA('123456')),18);
+
+INSERT INTO borrowers(username,password)
+VALUES ('chanchan',MD5(SHA('123456')));
+
+INSERT INTO borrowers(username,password)
+VALUES ('kyipar',MD5(SHA('123456'))),
+('pyae pyae',MD5(SHA('123456')));
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+SELECT * FROM remindmessages;
+
+-----------------------------------------------------------------
+
+=> Before Update
+
+
+DELIMITER ||
+CREATE TRIGGER borrowersage_bfu
+BEFORE UPDATE
+ON borrowers FOR EACH ROW
+BEGIN
+    DECLARE errmessage VARCHAR(255);
+    SET errmessage = CONCAT("The old age is ",OLD.age,". Sorry, we cannot provide to change.");
+
+    IF OLD.age IS NOT NULL THEN
+        SIGNAL SQLSLATE '45000'
+        SET MESSAGE_TEXT = errmessage;
+    ELSE
+
+        IF NEW.age < 18 THEN
+            SET NEW.status = 2;
+        ELSEIF NEW.age > 60 THEN
+            SET NEW.status = 3;
+        END IF;
+    END IF:
+END; ||
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+DESC remindmessages;
+SHOW CREATE TABLE remindmessages;
+SHOW INDEX FROM remindmessages;
+
+
+*error
+UPDATE borrowers SET age = 20 WHERE id = 16;
+UPDATE borrowers SET age = 50 WHERE id = 3;
+
+UPDATE borrowers SET age = 13 WHERE id = 26;
+UPDATE borrowers SET age = 65 WHERE id = 27;
+
+
+SELECT * FROM borrowers;
+
+
+------------------------------------------------------------------
+
+=> After Update
+
+DELIMITER ||
+CREATE TRIGGER borrowersagereminder_afu
+AFTER UPDATE
+ON borrowers FOR EACH ROW
+BEGIN
+    DELETE FROM remindmessages WHERE borrowers_id = OLD.id;
+END ; ||
+
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+UPDATE borrowers SET age = 40 WHERE id = 28;
+
+SELECT * FROM borrowers;
+SELECT * FROM remindmessages;
+
+------------------------------------------------------
+
+
+=> Before Delete
+
+
+CREATE TBALE IF NOT EXISTS borrowerremovers(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    borrower_id INT,
+    created_by VARCHAR(50),
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+DESC borrowerremovers;
+SHOW CREATE TABLE borrowerremovers;
+SHOW INDEX FROM borrowerremovers
+
+
+DELIMITER $$
+CREATE TRIGGER borrowersremovers_bfd
+BEFORE DELETE
+ON borrowers FOR EACH ROW
+BEGIN
+    DECLARE dbuser VARCHAR(50);
+    SELECT USER() INTO dbuser;
+
+    INSERT INTO borrowerremovers(borrower_id,created_by)
+    VALUE (OLD.id,dbuser);
+END ; $$
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+SELECT * FROM borrowers;
+SELECT * FROM remindmessages;
+
+
+DELETE FROM borrowers WHERE id = 1;
+
+DELETE FROM borrowers WHERE id = 3;
+DELETE FROM borrowers WHERE id = 5;
+
+------------------------------------------------------
+
+
+=> After Delete
+
+
+DELIMITER $$
+CREATE TRIGGER borrowersrmcreators_afd
+AFTER DELETE
+ON borrowers FOR EACH ROW
+BEGIN
+    DELETE FROM borrowerscreators WHERE borrower_id = OLD.id;
+END ; $$
+
+DELIMITER ;
+
+SHOW TRIGGERS;
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+SELECT * FROM remindmessages;
+
+DELETE FROM borrowers WHERE id = 20;
+
+
+DELETE FROM borrowers WHERE id = 23;
+DELETE FROM borrowers WHERE id = 24;
+
+SELECT * FROM borrowers;
+SELECT * FROM borrowerscreators;
+SELECT * FROM remindmessages;
+
+
+------------------------------------------------

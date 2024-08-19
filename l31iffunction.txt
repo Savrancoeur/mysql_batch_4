@@ -1,0 +1,198 @@
+=> IF Function
+=Syntax
+
+IF(condition,true,false);
+
+SEELCT IF(100 > 20,"TRUE","FALSE");
+SEELCT IF(100 < 20,"TRUE","FALSE");
+
+= EXERCISE
+
+SELECT * FROM customers;
+
+SELECT firstname,lastname,age,gender,
+    IF(age >= 35, "Older" , "Younger)
+FROM customers;
+
+SELECT firstname,lastname,age,gender,
+    IF(age >= 35, "Older" , "Younger) AS "age verify"
+FROM customers;
+
+----------------------------------------------------
+
+=> TRUNCATE() function
+= Syntax
+
+TRUNCATE(number,decimals)
+
+*result = 123.456
+SELECT TRUNCATE(123.456,3);
+
+*result = 123.454
+SELECT TRUNCATE(123.454,3);
+
+*result = 123.45
+SELECT TRUNCATE(123.456,2);
+
+*result = 123.4
+SELECT TRUNCATE(123.456,1);
+
+
+SELECT * FROM sellitems;
+
+SELECT name,price,
+    TRUNCATE(price,1)
+FROM sellitems;
+
+SELECT name,price,
+    TRUNCATE(price,0) AS 'integer'
+FROM sellitems;
+
+----------------------------------------------------
+
+=> ROUND() function
+= Syntax
+
+ROUND(number,decimals)
+
+*result = 123.342
+SELECT ROUND(123.342,3);
+SELECT ROUND(123.342,3);
+
+*result = 123.35
+SELECT ROUND(123.346,2);
+
+*result = 123.3
+SELECT ROUND(123.346,1);
+
+*result = 123
+SELECT ROUND(123.346,0);
+
+*result = 124
+SELECT ROUND(123.678,0);
+
+
+SELECT * FROM sellitems;
+
+SELECT name,price,
+    ROUND(price,1)
+FROM sellitems;
+
+SELECT name,price,
+    ROUND(price,0) AS 'integer'
+FROM sellitems;
+
+----------------------------------------------------
+
+=> CEIL() / CEILING() function
+= Syntax
+
+CEIL(number)
+CEILING(number)
+
+*result = 124
+SELECT CEIL(123.342);
+SELECT CEILING(123.342);
+SELECT CEIL(123.567);
+SELECT CEILING(123.567);
+
+*result = 123
+SELECT CEIL(123.346,2);
+SELECT CEILING(123.346,2);
+
+
+SELECT * FROM sellitems;
+
+SELECT name,price,
+    CEIL(price)
+FROM sellitems;
+
+SELECT name,price,
+    CEILING(price) AS 'integer'
+FROM sellitems;
+
+----------------------------------------------------
+
+=> FLOOR() function
+= Syntax
+
+FLOOR(number)
+
+*result = 123
+SELECT FLOOR(123.342);
+SELECT FLOOR(123.567);
+
+
+SELECT * FROM sellitems;
+
+SELECT name,price,
+    FLOOR(price)
+FROM sellitems;
+
+----------------------------------------------------
+
+=> ABS() function
+= Syntax
+
+ABS(number)
+
+*result = 123.342
+SELECT ABS(123.342);
+
+
+*result = 123.567
+SELECT ABS(-123.567);
+
+----------------------------------------------------
+
+=> SQRT() function
+= Syntax
+
+SQRT(number)
+
+*result = 7
+SELECT SQRT(49);
+
+*result = 9
+SELECT SQRT(81);
+
+----------------------------------------------------
+
+=> POW() function
+= Syntax
+
+POW(base,power)
+
+*result = 100
+SELECT POW(10,2);
+
+*result = 64
+SELECT POW(4,3);
+
+*result = 216
+SELECT POW(6,3);
+
+----------------------------------------------------
+
+=> SIGN() function
+= Syntax
+
+SIGN(number)
+
+
+if number > 0, it'll return 1
+if number < 0, it'll return -1
+if number = 0, it'll return 0
+
+
+
+*result = 1
+SELECT SIGN(500);
+
+*result = -1
+SELECT SIGN(-500);
+
+*result = 0
+SELECT SIGN(0);
+
+----------------------------------------------------

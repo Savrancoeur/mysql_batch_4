@@ -1,0 +1,81 @@
+=> Insert Single Data
+
+Method 1 = Syntax
+
+INSERT INTO tablename (column1,column2,column3,...)
+VALUE (value1,value2,value3,...);
+
+Method 2 = Syntax
+
+INSERT INTO tablename
+VALUE (value1,value2,value3,...);
+
+--------------------------------------------------------------------------------------------------------
+
+=> Insert Multi Data
+
+Method 1 = Syntax
+
+INSERT INTO tablename (column1,column2,column3,...)
+VALUES (value1,value2,value3,...),
+        (value1,value2,value3,...),
+        (value1,value2,value3,...),
+        .....;
+
+Method 2 = Syntax
+
+INSERT INTO tablename
+VALUES (value1,value2,value3,...),
+        (value1,value2,value3,...),
+        (value1,value2,value3,...),
+        .....;
+
+--------------------------------------------------------------------------------------------------------
+
+=> Exercise
+
+CREATE TABLE IF NOT EXISTS persons(
+    id INT,
+    firstname VARCHAR(50),
+    lastname VARCHAR(50),
+    city VARCHAR(30),
+    address VARCHAR(255)
+);
+
+DESC persons;                       => can be used to describe the table you want to take a look!
+
+INSERT INTO persons (id,firstname,lastname,city,address)
+VALUE (1,'aung','kyaw','Yangon','no.9,myittar st');
+
+INSERT INTO persons (id,firstname,lastname,city,address)
+VALUE (1,'aung','kyaw','Mandalay','no.9,myittar st');
+
+INSERT INTO persons (id,firstname,lastname,address,city)
+VALUES (3,'su','myatnoe','Mandalay','no.9,myittar st');
+
+INSERT INTO persons (id,firstname,lastname,address,city)
+VALUES (4,'may','myatnoe','no.9,myittar st','Mandalay');
+
+INSERT INTO persons VALUE (5,'aung','kyaw kyaw','Bago','no.9,myittar st');
+INSERT INTO persons VALUES (6,'aung','tun tun','Bago','no.9,myittar st');
+
+
+SELECT * FROM persons;              => this is used for viewing the datas you inserted into
+
+
+INSERT INTO persons (id,firstname,lastname,city,address)
+VALUES (7,'moe','kyaw','Bago','no.9,myittar st'),
+        (8,'moe','wai','Yangon','no.9,myittar st'),
+        (9,'moe','aung','Bago','no.9,myittar st'),
+        (10,'moe','maung','Pyay','no.9,myittar st');
+
+INSERT INTO persons (id,firstname,lastname,city,address)
+VALUES (11,'aung','kyaw','Bago','no.9,myittar st'),
+        (12,'aung aung','wai','Yangon','no.9,myittar st'),
+        (13,'aung','aung','Bago','no.9,myittar st'),
+        (14,'aung','maung','Pyay','no.9,myittar st');
+
+
+SELECT * FROM persons;
+
+--------------------------------------------------------------------------------------------------------

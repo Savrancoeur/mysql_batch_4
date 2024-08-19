@@ -1,0 +1,45 @@
+=> LEFT JOIN
+
+= Syntax
+
+SELECT column1,column2,column3 FROM table1
+LEFT JOIN table2
+    ON table1.column = table2.column2;
+
+---------------------------------------------------
+
+SELECT * FROM buyers;
+SELECT * FROM orders;
+
+
+
+=>INNER JOIN
+
+SELECT * FROM buyers
+INNER JOIN orders
+ON buyers.id = orders.buyer_id;
+
+=>LEFT JOIN
+
+SELECT * FROM buyers
+LEFT JOIN orders
+ON buyers.id = orders.buyer_id;
+
+
+SELECT * FROM orders
+LEFT JOIN buyers
+ON buyers.id = orders.buyer_id;
+
+
+SELECT * FROM orders
+LEFT JOIN buyers
+ON orders.buyer_id = buyers.id;
+
+---------------------------------------------------
+
+SELECT firstname,lastname,orderdate,amount
+FROM orders
+LEFT JOIN buyers
+ON orders.buyer_id = buyers.id;
+
+---------------------------------------------------

@@ -1,0 +1,98 @@
+=> String Data Types
+
+Data Type                                               Description
+
+CHAR(size)                                              A Fixed Length String  ( can contain letters, numbers, special characters ) 0 to 255
+VARCHAR(size)                                           A Variable Length String  ( can contain letters, numbers, special characters ) 0 to 255
+TEXT                                                    Hold a string with maximum size 6,xxx (6kb)
+TINYTEXT                                                Hold a string with maximum size 255 (255bytes)
+MEDIUMTEXT                                              Hold a string with maximum size 16,xxx,xxx (16 mb)
+LONGTEXT                                                Hold a string with maximum size 4,xxx,xxx,xxx (4 gb)
+
+BINARY(size)                                            Equal to CHAR(size), but store by binary byte string
+VARBINARY(size)                                         Equal to VARCHAR(size), but store by binary byte string
+BLOB()                                                  For BLOB(Binary Large Objects) . maximum size 6,xxx (6kb)
+TINYBLOB()                                              For BLOB(Binary Large Objects) . maximum size 255 (255bytes)
+MEDIUMBLOB()                                            For BLOB(Binary Large Objects) . maximum size 16,xxx,xxx (16 mb)
+LONGBLOB()                                              For BLOB(Binary Large Objects) . maximum size 4,xxx,xxx,xxx (4 gb)
+
+ENUM('val1','val2','val3',...)                          A String Object that can have only one value, choose from a list
+SET('val1','val2','val3',...)                           A String Object that can have one or more values, choose from a list
+
+
+= CHAR
+A Fixed Length String
+eg telephone numbers, zip code, Yes/No   Y/N, Male/Female   M/F
+
+--------------------------------------------------------------
+
+=EXERCISE
+
+CREATE TABLE IF NOT EXISTS contacts(
+    name CHAR(5),
+    city VARCHAR(10)
+);
+
+DESC contacts;
+SHOW CREATE TABLE contacts;
+
+*error
+INSERT INTO contacts(name,city)
+VALUE ('aung aung','mandalay');
+
+*error
+INSERT INTO contacts(name,city)
+VALUE ('aung','mandalaycity');
+
+*okay
+INSERT INTO contacts(name,city)
+VALUE ('aung','mandalay');
+
+CREATE TABLE IF NOT EXISTS myjobs(
+    id INT,
+    content VARCHAR(10) DEFAULT "nothing to show"
+);
+
+DESC myjobs;
+SHOW CREATE TABLE myjobs;
+
+INSERT INTO myjobs(id,content)
+VALUE (1,'hello');
+
+INSERT INTO myjobs(content)
+VALUE ('hi');
+
+
+*error
+INSERT INTO myjobs(id,content)
+VALUE (3,'hello world');
+
+*error
+INSERT INTO myjobs(id)
+VALUE (4);
+
+
+CREATE TABLE IF NOT EXISTS myworks(
+    id INT,
+    content VARCHAR(255) DEFAULT "nothing to show",
+    message TEXT
+);
+
+DESC myworks;
+SHOW CREATE TABLE myworks;
+
+INSERT INTO myworks(id,content,message)
+VALUE(1,"Hello","Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+
+INSERT INTO myworks(message)
+VALUE("Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.");
+
+#1101 - BLOB, TEXT, GEOMETRY or JSON column 'message' can't have a default value
+
+CREATE TABLE IF NOT EXISTS mytasks(
+    id INT DEFAULT 10,
+    content VARCHAR(255) DEFAULT "nothing to show",
+    message TEXT DEFAULT "have a good day"
+);
+
+---------------------------------------------------------------

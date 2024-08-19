@@ -1,0 +1,38 @@
+=>REPLACE
+
+= Syntax
+
+SELECT REPLACE('string','old','new');
+
+---------------------------------------
+
+=EXERCISE
+
+SELECT REPLACE('Hello World','Hell','Zer');
+
+
+*no action      (Case Sensitive)
+SELECT REPLACE('Hello World','hell','Zer');
+SELECT REPLACE('Hello World','hell0','Zer');
+
+
+
+SELECT REPLACE('Hello World','o','*');
+SELECT REPLACE('Hello World','l','7');
+
+
+*no action      (Case Sensitive)
+SELECT REPLACE('Hello World','0','5');
+
+
+SELECT REPLACE('coffee milk bread cheese',' ',' and '):
+
+---------------------------------------
+
+SELECT * FROM persons;
+SELECT city FROM persons;
+
+SELECT REPLACE(city,'m','M') FROM persons;
+SELECT REPLACE(city,'m','M') AS capital FROM persons;
+
+---------------------------------------
